@@ -67,6 +67,9 @@
             <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
             <file>$PROJ_DIR$\..\Drivers\CMSIS\Include\core_cm4.h</file>
             <file>$TOOLKIT_DIR$\inc\c\cmsis_iar.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\string.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\DLib_Product_string.h</file>
             <file>$PROJ_DIR$\USART_Test_LL\Obj\stm32f4xx_ll_dma.__cstat.et</file>
             <file>$PROJ_DIR$\..\Src\stm32f4xx_it.c</file>
             <file>$PROJ_DIR$\..\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_ll_usart.c</file>
@@ -127,11 +130,11 @@
             <inputs>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 38 29 60 59 4 14 22 2 20 30 61 8 24 27 1 34 32 23 28 0 55 15 49 3 26 33 57</file>
+                    <file> 38 29 60 59 4 14 22 2 20 30 61 8 24 27 1 34 32 23 28 0 55 15 49 3 26 33 57 62 63 64</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 61 38 1 14 32 15 27 22 3 34 29 60 59 30 28 33 24 4 2 20 8 23 0 55 49 26 57</file>
+                    <file> 24 28 61 4 59 14 62 29 60 33 38 34 1 22 32 15 3 30 27 2 20 8 23 0 55 49 26 57 63 64</file>
                 </tool>
             </inputs>
         </file>
@@ -252,7 +255,7 @@
                 </tool>
                 <tool>
                     <name>__cstat</name>
-                    <file> 62</file>
+                    <file> 65</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>

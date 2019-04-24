@@ -35,12 +35,21 @@
 #include "stm32f4xx_it.h"
 
 /* USER CODE BEGIN 0 */
+#include <string.h>
+  
 #define USART_RX_NUM 20
     
 uint8_t USART_RxBuffer[USART_RX_NUM] = {0};
 uint8_t USART_RxCount = 0;
 uint8_t USART_OrderCmd = 0;
 uint8_t USART_RxErr = 0;
+char USART_TxBuffer[1000] = {0};
+char USART_TxTmp[10] = {0};
+uint8_t USART_TxCount = 0;
+
+uint8_t TestData[10] = {1,2,3,4,5,6,7,8,9,10};
+
+void USART_Action(void);
     
 /* USER CODE END 0 */
 
@@ -205,12 +214,10 @@ void USART2_IRQHandler(void)
   /* USER CODE END USART2_IRQn 0 */
   /* USER CODE BEGIN USART2_IRQn 1 */
   
-  /* IT Disable */
-  LL_USART_DisableIT_RXNE(USART2);
-  
   
   /* RXNE Interrupt */
   if(LL_USART_IsActiveFlag_RXNE(USART2) == 1){
+    LL_USART_DisableIT_RXNE(USART2);
     LL_USART_ClearFlag_RXNE(USART2);
     USART_RxBuffer[USART_RxCount] = USART2->DR;
     if(USART_RxCount < USART_RX_NUM){
@@ -225,6 +232,7 @@ void USART2_IRQHandler(void)
         USART_OrderCmd = (USART_RxBuffer[0] - 0x30) * 10;
         USART_OrderCmd += USART_RxBuffer[1] - 0x30;
         USART_RxCount = 0;
+        USART_Action();
       }else{
         USART_RxCount = 0;
         USART_RxErr = 1;
@@ -233,14 +241,40 @@ void USART2_IRQHandler(void)
   }
   
   
+  /* TC Interrupt */
+  if(LL_USART_IsEnabledIT_TC(USART2) == 1){
+    LL_USART_DisableIT_TC(USART2);
+    LL_USART_ClearFlag_TC(USART2);
+    if(USART_TxBuffer[USART_TxCount] != 0){
+      USART2->DR = USART_TxBuffer[USART_TxCount];
+      USART_TxCount++;
+      LL_USART_EnableIT_TC(USART2);
+    }else{
+      USART_TxCount = 0;
+      USART_OrderCmd = 0;
+    }
+    
+  }
+  
+  
   /* IT Enable */
   LL_USART_EnableIT_RXNE(USART2);
-  
   
   /* USER CODE END USART2_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */
-
+void USART_Action(void){
+  if(USART_OrderCmd == 1){
+    USART_TxBuffer[0] = 0;
+    for(int i=0; i<10; i++){
+      sprintf(USART_TxTmp, "%d\r", TestData[i]);
+      strcat(USART_TxBuffer, USART_TxTmp);
+    }
+    LL_USART_EnableIT_TC(USART2);
+  }else{
+    USART_OrderCmd = 0;
+  }
+}
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

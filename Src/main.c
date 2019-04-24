@@ -40,7 +40,7 @@
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
-
+uint8_t USART_TxBusyFlag = 0;
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
